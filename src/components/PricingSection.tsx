@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
-import { Check, Star } from "lucide-react";
+import { Check, Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const plans = [
   {
     name: "Monthly",
-    price: "£9.99",
+    price: "₹799",
     period: "/month",
     description: "Full access, cancel anytime.",
     featured: false,
@@ -19,7 +20,7 @@ const plans = [
   },
   {
     name: "Yearly",
-    price: "£89.99",
+    price: "₹7,199",
     period: "/year",
     description: "Save 25% — best value.",
     featured: true,
@@ -34,8 +35,10 @@ const plans = [
 ];
 
 const PricingSection = () => {
+  const navigate = useNavigate();
+
   return (
-    <section id="pricing" className="py-24 px-6 bg-secondary/50">
+    <section id="pricing" className="py-16 sm:py-24 px-4 sm:px-6 bg-secondary/50">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -48,7 +51,7 @@ const PricingSection = () => {
             Simple, Transparent Plans
           </h2>
           <p className="text-muted-foreground mt-4 max-w-lg mx-auto">
-            Every pound funds prizes, supports charities, and keeps you in the game.
+            Every rupee funds prizes, supports charities, and keeps you in the game.
           </p>
         </motion.div>
 
@@ -60,17 +63,23 @@ const PricingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className={`relative rounded-2xl p-8 border transition-shadow ${
+              whileHover={{ y: -8 }}
+              className={`relative rounded-2xl p-8 border transition-all duration-300 ${
                 plan.featured
                   ? "bg-primary text-primary-foreground border-primary shadow-elevated"
                   : "bg-card border-border shadow-soft hover:shadow-elevated"
               }`}
             >
               {plan.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-gold text-emerald-dark text-xs font-bold px-3 py-1 rounded-full">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-gold text-emerald-dark text-xs font-bold px-3 py-1 rounded-full"
+                >
                   <Star size={12} className="fill-current" />
                   Best Value
-                </div>
+                </motion.div>
               )}
 
               <h3 className="text-lg font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -99,12 +108,14 @@ const PricingSection = () => {
               </ul>
 
               <Button
-                className={`w-full py-5 ${
+                onClick={() => navigate("/auth")}
+                className={`w-full py-5 hover:scale-[1.02] transition-transform ${
                   plan.featured
-                    ? "bg-gold-gradient text-emerald-dark font-semibold shadow-gold hover:opacity-90"
+                    ? "bg-gold-gradient text-emerald-dark font-semibold shadow-gold"
                     : "bg-primary text-primary-foreground hover:opacity-90"
                 }`}
               >
+                <Sparkles size={16} className="mr-2" />
                 Get Started
               </Button>
             </motion.div>

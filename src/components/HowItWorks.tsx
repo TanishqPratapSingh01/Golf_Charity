@@ -30,7 +30,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 px-6 bg-background">
+    <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ const HowItWorks = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, i) => (
             <motion.div
               key={step.step}
@@ -57,13 +57,17 @@ const HowItWorks = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12 }}
+              whileHover={{ y: -6, scale: 1.02 }}
               className="relative group"
             >
-              <div className="p-8 rounded-2xl bg-card border border-border hover:border-accent/40 transition-all duration-300 shadow-soft hover:shadow-elevated h-full">
+              <div className="p-6 sm:p-8 rounded-2xl bg-card border border-border hover:border-accent/40 transition-all duration-300 shadow-soft hover:shadow-elevated h-full">
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
+                  <motion.div
+                    whileHover={{ rotate: 10 }}
+                    className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center"
+                  >
                     <step.icon size={22} className="text-primary-foreground" />
-                  </div>
+                  </motion.div>
                   <span className="text-3xl font-bold text-accent/30" style={{ fontFamily: "'Playfair Display', serif" }}>
                     {step.step}
                   </span>
@@ -75,7 +79,7 @@ const HowItWorks = () => {
                   {step.description}
                 </p>
               </div>
-              {/* Connector line */}
+              {/* Connector */}
               {i < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-1/2 -right-3 w-6 border-t-2 border-dashed border-accent/30" />
               )}
