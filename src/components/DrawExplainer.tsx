@@ -27,7 +27,7 @@ const tiers = [
 
 const DrawExplainer = () => {
   return (
-    <section id="prizes" className="py-24 px-6 bg-secondary/50">
+    <section id="prizes" className="py-16 sm:py-24 px-4 sm:px-6 bg-secondary/50">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ const DrawExplainer = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           {tiers.map((tier, i) => (
             <motion.div
               key={tier.match}
@@ -52,7 +52,8 @@ const DrawExplainer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="rounded-2xl border border-border bg-card p-8 text-center shadow-soft hover:shadow-elevated transition-shadow"
+              whileHover={{ y: -6, scale: 1.03 }}
+              className="rounded-2xl border border-border bg-card p-6 sm:p-8 text-center shadow-soft hover:shadow-elevated transition-all duration-300"
             >
               <div className={`inline-flex px-3 py-1 rounded-full text-xs font-bold mb-4 ${tier.color}`}>
                 {tier.label}
@@ -60,13 +61,20 @@ const DrawExplainer = () => {
               <h3 className="text-lg font-bold text-foreground mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {tier.match}
               </h3>
-              <p className="text-4xl font-bold text-foreground mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <motion.p
+                className="text-4xl font-bold text-foreground mb-1"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+                initial={{ scale: 0.5 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", delay: 0.2 + i * 0.1 }}
+              >
                 {tier.share}
-              </p>
+              </motion.p>
               <p className="text-sm text-muted-foreground mb-4">of prize pool</p>
               {tier.rollover && (
                 <div className="flex items-center justify-center gap-1.5 text-xs text-accent font-medium">
-                  <RotateCcw size={12} />
+                  <RotateCcw size={12} className="animate-spin" style={{ animationDuration: "3s" }} />
                   Rolls over if unclaimed
                 </div>
               )}
@@ -78,7 +86,7 @@ const DrawExplainer = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground"
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted-foreground"
         >
           <div className="flex items-center gap-2">
             <Zap size={16} className="text-accent" />

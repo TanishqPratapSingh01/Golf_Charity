@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
   { label: "How It Works", href: "#how-it-works" },
@@ -12,6 +14,8 @@ const navLinks = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <motion.nav
@@ -20,7 +24,7 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/50"
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-hero flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>G</span>
@@ -35,20 +39,42 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="text-muted-foreground">
-            Log In
-          </Button>
-          <Button size="sm" className="bg-hero text-primary-foreground hover:opacity-90">
-            Subscribe Now
-          </Button>
+          {user ? (
+            <>
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm">
+                <User size={14} className="text-accent" />
+                <span className="text-foreground font-medium truncate max-w-[120px]">
+                  {user.email}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={signOut}
+                className="text-muted-foreground hover:text-destructive"
+              >
+                <LogOut size={16} />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => navigate("/auth")}>
+                Log In
+              </Button>
+              <Button size="sm" className="bg-hero text-primary-foreground hover:opacity-90" onClick={() => navigate("/auth")}>
+                Subscribe Now
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -67,7 +93,7 @@ const Navbar = () => {
             exit={{ height: 0, opacity: 0 }}
             className="md:hidden overflow-hidden bg-background border-b border-border"
           >
-            <div className="px-6 py-4 flex flex-col gap-3">
+            <div className="px-4 py-4 flex flex-col gap-3">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
@@ -79,8 +105,17 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-2 border-t border-border">
-                <Button variant="ghost" size="sm">Log In</Button>
-                <Button size="sm" className="bg-hero text-primary-foreground">Subscribe Now</Button>
+                {user ? (
+                  <>
+                    <p className="text-sm text-muted-foreground px-2 truncate">{user.email}</p>
+                    <Button variant="ghost" size="sm" onClick={signOut}>Sign Out</Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost" size="sm" onClick={() => { navigate("/auth"); setMobileOpen(false); }}>Log In</Button>
+                    <Button size="sm" className="bg-hero text-primary-foreground" onClick={() => { navigate("/auth"); setMobileOpen(false); }}>Subscribe Now</Button>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>

@@ -11,9 +11,9 @@ const sampleScores = [
 
 const ScorePreview = () => {
   return (
-    <section className="py-24 px-6 bg-background">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -49,7 +49,7 @@ const ScorePreview = () => {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-card border border-border rounded-2xl p-6 shadow-elevated"
+            className="bg-card border border-border rounded-2xl p-4 sm:p-6 shadow-elevated"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-bold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -68,12 +68,16 @@ const ScorePreview = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 + i * 0.08 }}
-                  className="flex items-center justify-between p-4 rounded-xl bg-secondary/70 border border-border/50"
+                  whileHover={{ x: 4, backgroundColor: "hsl(var(--secondary))" }}
+                  className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-secondary/70 border border-border/50 cursor-default transition-colors"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
-                      <span className="text-lg font-bold text-primary-foreground">{s.score}</span>
-                    </div>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary flex items-center justify-center"
+                    >
+                      <span className="text-base sm:text-lg font-bold text-primary-foreground">{s.score}</span>
+                    </motion.div>
                     <div>
                       <p className="text-sm font-medium text-foreground">Round Score</p>
                       <p className="text-xs text-muted-foreground">{s.date}</p>
@@ -99,9 +103,10 @@ const ScorePreview = () => {
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.6 + i * 0.1, type: "spring" }}
-                    className="w-11 h-11 rounded-full bg-gold/20 border-2 border-accent flex items-center justify-center"
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gold/20 border-2 border-accent flex items-center justify-center cursor-pointer"
                   >
-                    <span className="text-sm font-bold text-accent">{s.score}</span>
+                    <span className="text-xs sm:text-sm font-bold text-accent">{s.score}</span>
                   </motion.div>
                 ))}
               </div>
